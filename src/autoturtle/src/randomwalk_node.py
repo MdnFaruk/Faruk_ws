@@ -3,12 +3,13 @@
 import rospy
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
-import random
+import random, math
 
 def callback(data):
     vel_msg = Twist()
     pose = data
-
+    d = math.sqrt(math.pow(10 - vel_msg.linear.x,2) + math.pow(10 - vel_msg.linear.y,2))
+    
     if pose.x > 10:
         vel_msg.angular.z = 0
         vel_msg.linear.x = -2
@@ -26,8 +27,12 @@ def callback(data):
         vel_msg.linear.x = -2
 
     else: 
-        vel_msg.angular.z = random.randint(-2,2)
-        vel_msg.linear.x = random.randint(0,2)
+        vel_msg.angular.z = random.randint(1,10)
+        vel_msg.linear.x = random.randint(0,10)
+    
+    if (d == 0):   
+        vel_msg.angular.z = random.randint(1,10)
+        vel_msg.linear.x = random.randint(0,10) 
 
     velocity_publisher.publish(vel_msg)                
 
@@ -37,3 +42,4 @@ pose_subscriber = rospy.Subscriber('/turtle1/pose',Pose,callback)
 
 while not rospy.is_shutdown():
     rospy.spin()
+    rospy.Rate(10).sleep()

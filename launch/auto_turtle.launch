@@ -1,0 +1,6 @@
+<launch>
+	<node pkg="turtlesim" type="turtlesim_node" name="turtlesim_node">
+	</node>
+	<node pkg="autoturtle" type="randomwalk_node.py" name="randomwalk_node">
+	</node>
+</launch>	
